@@ -109,10 +109,6 @@ def _ns(
     )
 
 
-def _rev_exists(rev: str) -> bool:
-    return not subprocess.call(('git', 'rev-list', '--quiet', rev))
-
-
 def _pre_push_ns(
         color: bool,
         args: Sequence[str],
@@ -126,14 +122,6 @@ def _pre_push_ns(
         local_branch, local_sha, remote_branch, remote_sha = parts
         if local_sha == Z40:
             continue
-        elif remote_sha != Z40 and _rev_exists(remote_sha):
-            return _ns(
-                'pre-push', color,
-                from_ref=remote_sha, to_ref=local_sha,
-                remote_branch=remote_branch,
-                local_branch=local_branch,
-                remote_name=remote_name, remote_url=remote_url,
-            )
         else:
             # ancestors not found in remote
             ancestors = subprocess.check_output((

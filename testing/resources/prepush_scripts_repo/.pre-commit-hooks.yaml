@@ -1,0 +1,6 @@
+-   id: bash_hook
+    name: Bash hook
+    entry: bin/hook.sh
+    language: script
+    files: '.*'
+    stages: [pre-push]
